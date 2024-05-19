@@ -1,18 +1,17 @@
-:root{
+:root {
 	--main-bg-color: #F9EFDB;
 	--test: #C4CCCC;
 }
 
-
 html {
-	background-color: var(--main-bg-color)!important;
+	background-color: var(--main-bg-color) !important;
 }
 
 body {
-	background-color: var(--main-bg-color)!important;
+	background-color: var(--main-bg-color) !important;
 }
 
-#topBar{
+#topBar {
 	display: grid;
 	background-color: --main-bg-color;
 	grid-template-columns: auto auto auto;
@@ -29,10 +28,80 @@ body {
 	color: black;
 }
 
-a{
-	text-decoration: none!important;
+a {
+	text-decoration: none !important;
 }
 
-#cartIcon{
+#cartIcon {
 	font-size: 40px;
+}
+
+.uploadDisplayImage{
+	margin-left: auto;
+	margin-right: auto;
+	object-fit: contain;
+}
+
+body .ui-inputfield {
+	padding: .375rem .75rem;
+	width: 100%;
+}
+body .ui-inputfield.ui-state-focus{
+	
+}
+
+.ui-message-error-icon{
+	display: none!important;
+}
+.ui-message.ui-message-error, body .ui-message.ui-message-fatal{
+	padding:0;
+	background: none!important;
+	border: none!important;
+	display: block;
+	text-align: center;
+}
+
+.ui-fileupload-filename{
+	display: none;
+}
+
+.auto-margins {
+	margin-top: 1rem!important;
+	margin-left: auto!important;
+	margin-right: auto!important;
+}
+input[type="file"] {
+    padding: .25rem .25rem !important;
+}
+
+.form-control{
+	padding: 0!important;
+}
+
+.ui-fileupload-content .ui-progressbar {
+        display: none;
+}
+
+ui-fileupload-upload ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left{
+	
+}
+
+.ui-inputtext {
+	
+}
+
+.ui-widget {
+	
+}
+
+.ui-state-default {
+	
+}
+
+.ui-corner-all {
+	
+}
+
+.ui-state-filled {
+	
 }

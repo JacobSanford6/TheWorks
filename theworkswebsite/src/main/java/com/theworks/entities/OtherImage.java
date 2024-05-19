@@ -1,30 +1,29 @@
 package com.theworks.entities;
 
-import java.util.ArrayList;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table(name = "users")
 @Entity
 @Getter
 @Setter
-public class User {
+@Table(name = "other_image")
+public class OtherImage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private String username;
-	private String email;
-	private String passwordHash;
-	private String passwordSalt;
-	private ArrayList<String> roles;
-	@Transient
-	private boolean isNew;
+	@ManyToOne
+	private Product product;
+
+	@Lob
+	@Column(columnDefinition = "BLOB")
+	private byte[] image;
 }

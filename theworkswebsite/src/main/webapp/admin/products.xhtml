@@ -66,7 +66,8 @@
 						<p:graphicImage id="frontDisplay"
 							styleClass="uploadDisplayImage d-block" height="200"
 							style="display: none!important" width="200" />
-						<p:commandButton type="button" value="Remove" id="frontRemoveUpload"
+						<p:commandButton type="button" value="Remove"
+							id="frontRemoveUpload"
 							style="display: none; margin-left:auto; margin-right:auto"
 							styleClass="text-center" />
 
@@ -81,7 +82,8 @@
 						<p:graphicImage id="backDisplay"
 							styleClass="uploadDisplayImage d-block" height="200" width="200"
 							style="display: none!important" />
-						<p:commandButton type="button" value="Remove" id="backRemoveUpload"
+						<p:commandButton type="button" value="Remove"
+							id="backRemoveUpload"
 							style="display: none; margin-left:auto; margin-right:auto"
 							styleClass="text-center" />
 
@@ -99,21 +101,35 @@
 							accept=".png,.jpg,.jpeg" id="otherImageUpload"
 							style="margin-left: auto; margin-right: auto"
 							label="Choose Image" virusScan="true" multiple="true" />
-						<p:commandButton type="button" value="Remove" id="otherRemoveUpload"
+						<p:commandButton type="button" value="Remove"
+							id="otherRemoveUpload"
 							style="display: none; margin-left:auto; margin-right:auto"
 							styleClass="text-center" />
 					</h:panelGroup>
 
-					
-						
-					<div class="carousel slide" data-ride="carousel">
+
+
+					<div class="carousel slide" data-ride="carousel" id="imageCarousel" data-bs-ride="carousel">
 						<div class="carousel-inner" id="otherImagesDisplay"></div>
+
+						<button class="carousel-control-prev" type="button" onclick="$('#imageCarousel').carousel('prev')"
+							data-bs-target="#carouselExampleControlsNoTouching"
+							data-bs-slide="prev">
+							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Previous</span>
+						</button> 
+						<button class="carousel-control-next" type="button" onclick="$('#imageCarousel').carousel('next')"
+							data-bs-target="#carouselExampleControlsNoTouching"
+							data-bs-slide="next">
+							<span class="carousel-control-next-icon" aria-hidden="true"></span>
+							<span class="visually-hidden">Next</span>
+						</button>
 					</div>
 
 				</h:panelGroup>
 
 
-				<p:commandButton 
+				<p:commandButton
 					update="nameMsg name desc descMsg cost costMsg price priceMsg"
 					styleClass="d-block text-center auto-margins"
 					action="#{clothingController.tryCreateProduct}" value="Create" />

@@ -1,3 +1,4 @@
+
 const frontUpload = document.getElementById("frontImageUpload")
 const backUpload = document.getElementById("backImageUpload")
 const othersUpload = document.getElementById("otherImageUpload")
@@ -68,8 +69,8 @@ function createMultipleImageEvents(obj, uploadDivId, removeButtonId) {
 
 					const imgNode = document.createElement("img");
 					imgNode.setAttribute("class", "uploadDisplayImage d-block w-100");
-					//imgNode.setAttribute("height", "200");
-					//imgNode.setAttribute("width", "200");
+					imgNode.setAttribute("height", "200");
+					imgNode.setAttribute("width", "200");
 
 					imgNode.setAttribute("src", newUrl);
 
@@ -79,8 +80,15 @@ function createMultipleImageEvents(obj, uploadDivId, removeButtonId) {
 
 					divNode.appendChild(imgNode);
 					uploadDiv.appendChild(divNode);
-				
+
+
 				}
+
+				const carousel = new bootstrap.Carousel('#imageCarousel', {
+					interval: 1000,
+				});
+				carousel.cycle();
+				console.log(carousel)
 			}
 		}
 

@@ -85,10 +85,9 @@ function createMultipleImageEvents(obj, uploadDivId, removeButtonId) {
 				}
 
 				const carousel = new bootstrap.Carousel('#imageCarousel', {
-					interval: 1000,
+					interval: 2500,
 				});
 				carousel.cycle();
-				console.log(carousel)
 			}
 		}
 

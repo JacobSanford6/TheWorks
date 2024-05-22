@@ -1,7 +1,6 @@
-
-const frontUpload = document.getElementById("frontImageUpload")
-const backUpload = document.getElementById("backImageUpload")
-const othersUpload = document.getElementById("otherImageUpload")
+frontUpload = document.getElementById("frontImageUpload");
+backUpload = document.getElementById("backImageUpload");
+othersUpload = document.getElementById("otherImageUpload");
 
 function createEvents(obj, removeId, displayId) {
 	if (obj) {
@@ -11,6 +10,12 @@ function createEvents(obj, removeId, displayId) {
 		obj.onchange = evt => {
 			const [file] = obj.files;
 			if (file && removeButton) {
+				// hide editting image if exists
+				if (document.getElementById(displayId + "Edit")) {
+					document.getElementById(displayId + "Edit").remove();
+				}
+
+				// display new image
 				displayImg.src = URL.createObjectURL(file);
 				displayImg.style.display = "block";
 				removeButton.style.display = "block";
@@ -19,7 +24,8 @@ function createEvents(obj, removeId, displayId) {
 
 		if (removeButton) {
 			removeButton.onclick = evt => {
-				displayImg.style.display = "none!important";
+				document.getElementById(displayId).style.display = "none";
+				//console.log(displayImg)
 				obj.value = "";
 				removeButton.style.display = "none";
 			}
@@ -66,7 +72,6 @@ function createMultipleImageEvents(obj, uploadDivId, removeButtonId) {
 						divNode.setAttribute("class", "carousel-item")
 					}
 
-
 					const imgNode = document.createElement("img");
 					imgNode.setAttribute("class", "uploadDisplayImage d-block w-100");
 					imgNode.setAttribute("height", "200");
@@ -92,12 +97,10 @@ function createMultipleImageEvents(obj, uploadDivId, removeButtonId) {
 		}
 
 	}
-
-
-
-
 }
 
 createEvents(frontUpload, "frontRemoveUpload", "frontDisplay");
 createEvents(backUpload, "backRemoveUpload", "backDisplay");
 createMultipleImageEvents(othersUpload, "otherImagesDisplay", "otherRemoveUpload");
+
+

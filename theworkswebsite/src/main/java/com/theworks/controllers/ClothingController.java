@@ -1,6 +1,5 @@
 package com.theworks.controllers;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +7,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import com.theworks.entities.OtherImage;
 import com.theworks.entities.Product;
@@ -19,43 +19,124 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Getter
 @Setter
 @Named
 @ViewScoped
-public class ClothingController {
+public class ClothingController extends BaseController {
+	private static final long serialVersionUID = 1L;
 	private ProductRepo productRepo;
 	private OtherImageRepo otherImageRepo;
 	private String clothingName;
 	private String clothingDescription;
-	private String mode = "create";
+	private String mode = "list";
 	private Product selectedProduct;
 	private UploadedFile frontImageUpload;
 	private UploadedFile backImageUpload;
 	private UploadedFiles otherImageUpload;
+	private ArrayList<Product> productList;
+	private byte[] testByteArr;
 
 	@Autowired
 	public ClothingController(ProductRepo productRepo, OtherImageRepo otherImageRepo) {
 		this.productRepo = productRepo;
 		this.otherImageRepo = otherImageRepo;
 		this.selectedProduct = new Product();
+		this.productList = new ArrayList<>();
 	}
 
 	@PostConstruct
 	public void init() {
+		updateProductList();
+		System.out.println("new");
+	}
 
+	private void updateProductList() {
+		productList = new ArrayList<>();
+		for (Product product : productRepo.findAll()) {
+			testByteArr = product.getFrontImage();
+			productList.add(product);
+		}
 	}
 
 	public void tryCreateProduct() {
-		for (OtherImage otherImage : selectedProduct.getOtherImages()) {
-			System.out.println("^^^: " + otherImage);
-			otherImageRepo.save(otherImage);
+		if (otherImageUpload != null) {
+			for (UploadedFile uploadedFile : otherImageUpload.getFiles()) {
+				OtherImage otherImage = new OtherImage();
+				otherImage.setImage(uploadedFile.getContent());
+
+				otherImageRepo.save(otherImage);
+				List<OtherImage> otherImages = selectedProduct.getOtherImages();
+				if (otherImages == null) {
+					otherImages = new ArrayList<>();
+				}
+				otherImages.add(otherImage);
+
+				selectedProduct.setOtherImages(otherImages);
+
+			}
 		}
-		productRepo.save(selectedProduct);
+
+		if (frontImageUpload != null) {
+			try {
+				log.info(frontImageUpload.getInputStream().readAllBytes().toString());
+				selectedProduct.setFrontImage(frontImageUpload.getInputStream().readAllBytes());
+			} catch (Exception e) {
+				log.error("Front image error", e);
+			}
+		} else {
+			System.out.println("front image doesn't exist");
+		}
+
+		if (backImageUpload != null) {
+			selectedProduct.setBackImage(backImageUpload.getContent());
+		}
+
+		try {
+			Product savedProduct = productRepo.save(selectedProduct);
+			if (productRepo.existsById(savedProduct.getId())) {
+				selectedProduct = null;
+				updateProductList();
+				mode = "list";
+			}
+		} catch (DataIntegrityViolationException e) {
+			if (e.getMessage().contains("Duplicate entry")) {
+				addError("This product alread exists!");
+			}
+		}
+
+	}
+
+	public void removeFrontImage() {
+		log.info("remove fron");
+		selectedProduct.setFrontImage(null);
+	}
+
+	public void goToCreate() {
+		this.mode = "create";
+		System.out.println("creating");
+		selectedProduct = new Product();
+	}
+
+	public void goToEdit(int id) {
+		Product searchProduct = productRepo.findById(id).get();
+		if (searchProduct != null) {
+			selectedProduct = searchProduct;
+			mode = "edit";
+		}
+	}
+
+	public void goToList() {
+		updateProductList();
+		selectedProduct = null;
+		mode = "list";
 	}
 
 	public void frontImageListener(FileUploadEvent event) {
+		log.info("*** file upload front");
 		UploadedFile file = event.getFile();
 		try {
 			if (file != null && file.getSize() > 0) {
@@ -75,30 +156,6 @@ public class ClothingController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public void otherImagesListener(FileUploadEvent event) {
-		UploadedFile file = event.getFile();
-		List<OtherImage> otherImages = this.selectedProduct.getOtherImages();
-		if (otherImages == null) {
-			otherImages = new ArrayList<OtherImage>();
-		}
-		try {
-			if (file != null && file.getSize() > 0) {
-				OtherImage newImage = new OtherImage();
-				File saveFileTest = new File("C:\\Users\\jake\\Downloads");
-				// saveFileTest.set
-				newImage.setImage(event.getFile().getContent());
-				System.out.println(event.getFile().getContent());
-				System.out.println(newImage.getImage());
-				newImage.setImage(null);
-				otherImages.add(newImage);
-				selectedProduct.setOtherImages(otherImages);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	public void formSubmit() {

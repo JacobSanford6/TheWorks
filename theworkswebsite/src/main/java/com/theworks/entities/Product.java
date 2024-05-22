@@ -12,10 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
-@Table(name = "product")
+@Table(name = "product", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 @Entity
 @Getter
 @Setter
@@ -36,6 +38,11 @@ public class Product {
 	@Lob
 	@Column(columnDefinition = "BLOB")
 	private byte[] backImage;
+
+	@Transient
+	private byte[] backImageMock;
+	@Transient
+	private byte[] frontImageMock;
 
 	@OneToMany(mappedBy = "product")
 	private List<OtherImage> otherImages;

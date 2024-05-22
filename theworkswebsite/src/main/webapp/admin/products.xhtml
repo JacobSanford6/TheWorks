@@ -5,140 +5,183 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/layout/layout.xhtml" xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="content">
+	<ui:define name="content" styleClass="container">
+		<h:panelGroup id="panel" styleClass="container d-block text-center">
+			<p:autoUpdate />
+			<h:panelGroup styleClass="d-bloc"
+				rendered="#{clothingController.mode == 'create' or clothingController.mode == 'edit'}">
 
-		<h:panelGroup styleClass="d-block w-80">
+				<h:form id="createForm" prependId="false"
+					enctype="multipart/form-data">
+					<p:messages globalOnly="true" />
+					<h:panelGroup styleClass="row">
+						<h:panelGroup styleClass="form-group col">
+							<h:outputLabel value="Product Name" />
+							<span class="form-control"> <p:inputText required="true"
+									requiredMessage="Product name is required"
+									value="#{clothingController.selectedProduct.name}"
+									placeholder="Product" id="name" />
+							</span>
+							<p:message for="name" id="nameMsg" />
+						</h:panelGroup>
 
-			<h:form rendered="#{clothingController.mode == 'create'}"
-				prependId="false" enctype="multipart/form-data"
-				styleClass="container">
-				<h:panelGroup styleClass="row">
-					<h:panelGroup styleClass="form-group col">
-						<h:outputLabel value="Product Name" />
-						<span class="form-control"> <p:inputText required="true"
-								requiredMessage="Product name is required"
-								value="#{clothingController.selectedProduct.name}"
-								placeholder="Product" id="name" />
-						</span>
-						<p:message for="name" id="nameMsg" />
+						<h:panelGroup styleClass="col form-group">
+							<h:outputLabel value="Product Cost" />
+							<p:inputNumber styleClass="form-control"
+								value="#{clothingController.selectedProduct.cost}"
+								decimalPlaces="2" decimalSeparator="." emptyValue="0.00"
+								symbolPosition="p" symbol="$" id="cost" />
+							<p:message for="cost" id="costMsg" />
+						</h:panelGroup>
+
+						<h:panelGroup styleClass="form-group col">
+							<h:outputLabel value="Product Price" />
+							<p:inputNumber styleClass="form-control" required="true"
+								requiredMessage="Product price is required"
+								value="#{clothingController.selectedProduct.price}"
+								decimalPlaces="2" decimalSeparator="." symbolPosition="p"
+								symbol="$" id="price" />
+							<p:message for="price" id="priceMsg" />
+						</h:panelGroup>
 					</h:panelGroup>
 
-					<h:panelGroup styleClass="col form-group">
-						<h:outputLabel value="Product Cost" />
-						<p:inputNumber styleClass="form-control"
-							value="#{clothingController.selectedProduct.cost}"
-							decimalPlaces="2" decimalSeparator="." emptyValue="0.00"
-							symbolPosition="p" symbol="$" id="cost" />
-						<p:message for="cost" id="costMsg" />
+					<h:panelGroup styleClass="row">
+						<h:panelGroup styleClass="form-group col">
+							<h:outputLabel value="Product Description" />
+							<span class="form-control"> <p:inputTextarea
+									placeholder="Description"
+									value="#{clothingController.selectedProduct.description}"
+									id="desc" />
+							</span>
+							<p:message for="desc" id="descMsg" />
+						</h:panelGroup>
 					</h:panelGroup>
 
-					<h:panelGroup styleClass="form-group col">
-						<h:outputLabel value="Product Price" />
-						<p:inputNumber styleClass="form-control" required="true"
-							requiredMessage="Product price is required"
-							value="#{clothingController.selectedProduct.price}"
-							decimalPlaces="2" decimalSeparator="." symbolPosition="p"
-							symbol="$" id="price" />
-						<p:message for="price" id="priceMsg" />
+					<h:panelGroup styleClass="row">
+						<h:panelGroup styleClass="col form-group">
+							<h:outputText value="Front Image"
+								styleClass="d-block text-center" />
+							<p:fileUpload value="#{clothingController.frontImageUpload}"
+								listener="#{clothingController.frontImageListener}"
+								styleClass="ui-button-text ui-c form-control" mode="simple"
+								multiple="false" accept=".png,.jpg,.jpeg" id="frontImageUpload"
+								label="Choose Image" virusScan="true" />
+							<p:graphicImage id="frontDisplayEdit" rendered="#{clothingController.selectedProduct.frontImage != null}"
+								styleClass="upload-display-img d-block" height="200"
+								width="200" value="#{clothingController.selectedProduct.frontImage}" stream="false" />
+							<p:graphicImage id="frontDisplay"
+								styleClass="upload-display-img" height="200"
+								style="display: none!important" width="200" />
+							<p:commandButton type="button" value="Remove"
+								id="frontRemoveUpload"
+								style="display: none; margin-left:auto; margin-right:auto"
+								styleClass="text-center" />
+								
+						</h:panelGroup>
+
+						<h:panelGroup styleClass="col form-group">
+							<h:outputText value="Back Image" styleClass="d-block text-center" />
+							<p:fileUpload value="#{clothingController.backImageUpload}"
+								styleClass="ui-button-text ui-c form-control" mode="simple"
+								multiple="false" accept=".png,.jpg,.jpeg" id="backImageUpload"
+								label="Choose Image" virusScan="true" />
+							<p:graphicImage id="backDisplayEdit" rendered="#{clothingController.selectedProduct.backImage != null}"
+								styleClass="upload-display-img d-block" height="200"
+								width="200" value="#{clothingController.selectedProduct.backImage}" stream="false" />
+							<p:graphicImage id="backDisplay"
+								styleClass="upload-display-img" height="200" width="200"
+								style="display: none!important" />
+							<p:commandButton type="button" value="Remove"
+								id="backRemoveUpload"
+								style="display: none; margin-left:auto; margin-right:auto"
+								styleClass="text-center" />
+
+						</h:panelGroup>
 					</h:panelGroup>
+
+					<h:panelGroup styleClass="row">
+						<h:panelGroup styleClass="col">
+							<h:outputText value="Other Images"
+								styleClass="d-block text-center" />
+							<p:fileUpload value="#{clothingController.otherImageUpload}"
+								styleClass="ui-button-text ui-c form-control w-50" mode="simple"
+								accept=".png,.jpg,.jpeg" id="otherImageUpload"
+								style="margin-left: auto; margin-right: auto"
+								label="Choose Image" virusScan="true" multiple="true" />
+							<p:commandButton type="button" value="Remove"
+								id="otherRemoveUpload"
+								style="display: none; margin-left:auto; margin-right:auto"
+								styleClass="text-center" />
+						</h:panelGroup>
+					</h:panelGroup>
+
+					<h:panelGroup styleClass="row justify-content-center">
+						<div class="carousel slide w-50" data-ride="carousel"
+							id="imageCarousel" data-bs-ride="carousel">
+							<div class="carousel-inner" id="otherImagesDisplay"></div>
+
+							<button class="carousel-control-prev" type="button"
+								onclick="$('#imageCarousel').carousel('prev')"
+								data-bs-target="#carouselExampleControlsNoTouching"
+								data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button"
+								onclick="$('#imageCarousel').carousel('next')"
+								data-bs-target="#carouselExampleControlsNoTouching"
+								data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</div>
+					</h:panelGroup>
+					<p:commandButton rendered="#{clothingController.mode == 'create'}"
+						update="nameMsg name desc descMsg cost costMsg price priceMsg"
+						styleClass="d-block text-center auto-margins"
+						action="#{clothingController.tryCreateProduct}" value="Create" />
+					<p:commandButton rendered="#{clothingController.mode == 'edit'}"
+						update="nameMsg name desc descMsg cost costMsg price priceMsg"
+						styleClass="d-block text-center auto-margins"
+						action="#{clothingController.tryCreateProduct}" value="Save" />
+					<p:commandButton
+						update="nameMsg name desc descMsg cost costMsg price priceMsg"
+						styleClass="d-block text-center auto-margins btn-danger"
+						action="#{clothingController.goToList}" value="Cancel" immediate="true" />
+				</h:form>
+				<h:outputScript library="js" name="imageUploading.js" />
+			</h:panelGroup>
+
+
+
+
+
+
+
+
+
+			<h:panelGroup rendered="#{clothingController.mode == 'list'}">
+				<h:panelGroup>
+					<ui:repeat var="product" value="#{clothingController.productList}">
+						<p:commandLink action="#{clothingController.goToEdit(product.id)}">
+							<p:panel header="#{product.name}"
+								styleClass="admin-product-panel">
+								<p:outputLabel value="#{product.description}"></p:outputLabel>
+								<p:graphicImage value="#{product.frontImage}" stream="false"
+									height="150" width="150" styleClass="upload-display-img" />
+							</p:panel>
+						</p:commandLink>
+					</ui:repeat>
+
 				</h:panelGroup>
-
-				<h:panelGroup styleClass="row">
-					<h:panelGroup styleClass="form-group col">
-						<h:outputLabel value="Product Description" />
-						<span class="form-control"> <p:inputTextarea
-								placeholder="Description"
-								value="#{clothingController.selectedProduct.description}"
-								id="desc" />
-						</span>
-						<p:message for="desc" id="descMsg" />
-					</h:panelGroup>
-				</h:panelGroup>
-
-				<h:panelGroup styleClass="row">
-
-					<h:panelGroup styleClass="col form-group">
-						<h:outputText value="Front Image" styleClass="d-block text-center" />
-						<p:fileUpload value="#{clothingController.backImageUpload}"
-							styleClass="ui-button-text ui-c form-control" mode="simple"
-							multiple="false" accept=".png,.jpg,.jpeg" id="frontImageUpload"
-							label="Choose Image" virusScan="true" />
-						<p:graphicImage id="frontDisplay"
-							styleClass="uploadDisplayImage d-block" height="200"
-							style="display: none!important" width="200" />
-						<p:commandButton type="button" value="Remove"
-							id="frontRemoveUpload"
-							style="display: none; margin-left:auto; margin-right:auto"
-							styleClass="text-center" />
-
-					</h:panelGroup>
-
-					<h:panelGroup styleClass="col form-group">
-						<h:outputText value="Back Image" styleClass="d-block text-center" />
-						<p:fileUpload value="#{clothingController.backImageUpload}"
-							styleClass="ui-button-text ui-c form-control" mode="simple"
-							multiple="false" accept=".png,.jpg,.jpeg" id="backImageUpload"
-							label="Choose Image" virusScan="true" />
-						<p:graphicImage id="backDisplay"
-							styleClass="uploadDisplayImage d-block" height="200" width="200"
-							style="display: none!important" />
-						<p:commandButton type="button" value="Remove"
-							id="backRemoveUpload"
-							style="display: none; margin-left:auto; margin-right:auto"
-							styleClass="text-center" />
-
-					</h:panelGroup>
-
-
-				</h:panelGroup>
-
-				<h:panelGroup styleClass="row">
-					<h:panelGroup styleClass="col">
-						<h:outputText value="Other Images"
-							styleClass="d-block text-center" />
-						<p:fileUpload value="#{clothingController.otherImageUpload}"
-							styleClass="ui-button-text ui-c form-control w-50" mode="simple"
-							accept=".png,.jpg,.jpeg" id="otherImageUpload"
-							style="margin-left: auto; margin-right: auto"
-							label="Choose Image" virusScan="true" multiple="true" />
-						<p:commandButton type="button" value="Remove"
-							id="otherRemoveUpload"
-							style="display: none; margin-left:auto; margin-right:auto"
-							styleClass="text-center" />
-					</h:panelGroup>
-				</h:panelGroup>
-
-				<h:panelGroup styleClass="row justify-content-center">
-					<div class="carousel slide w-50" data-ride="carousel"
-						id="imageCarousel" data-bs-ride="carousel">
-						<div class="carousel-inner" id="otherImagesDisplay"></div>
-
-						<button class="carousel-control-prev" type="button"
-							onclick="$('#imageCarousel').carousel('prev')"
-							data-bs-target="#carouselExampleControlsNoTouching"
-							data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-						<button class="carousel-control-next" type="button"
-							onclick="$('#imageCarousel').carousel('next')"
-							data-bs-target="#carouselExampleControlsNoTouching"
-							data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
-					</div>
-				</h:panelGroup>
-
-
-				<p:commandButton
-					update="nameMsg name desc descMsg cost costMsg price priceMsg"
-					styleClass="d-block text-center auto-margins"
-					action="#{clothingController.tryCreateProduct}" value="Create" />
-			</h:form>
+				<h:form>
+					<p:commandButton value="Create" styleClass="d-block auto-margins"
+						action="#{clothingController.goToCreate}" />
+				</h:form>
+			</h:panelGroup>
 		</h:panelGroup>
 
-		<h:outputScript library="js" name="imageUploading.js" />
+
 	</ui:define>
 
 </ui:composition>

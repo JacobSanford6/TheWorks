@@ -116,6 +116,30 @@
 					</h:panelGroup>
 
 					<h:panelGroup styleClass="row justify-content-center">
+						<h:panelGroup class="carousel slide w-50" data-ride="carousel"
+							id="imageCarouselEdit" data-bs-ride="carousel">
+							<div class="carousel-inner">
+							
+								
+							
+							</div>
+
+							<button class="carousel-control-prev" type="button"
+								onclick="$('#imageCarousel').carousel('prev')"
+								data-bs-target="#carouselExampleControlsNoTouching"
+								data-bs-slide="prev">
+								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Previous</span>
+							</button>
+							<button class="carousel-control-next" type="button"
+								onclick="$('#imageCarousel').carousel('next')"
+								data-bs-target="#carouselExampleControlsNoTouching"
+								data-bs-slide="next">
+								<span class="carousel-control-next-icon" aria-hidden="true"></span>
+								<span class="visually-hidden">Next</span>
+							</button>
+						</h:panelGroup>
+					
 						<div class="carousel slide w-50" data-ride="carousel"
 							id="imageCarousel" data-bs-ride="carousel">
 							<div class="carousel-inner" id="otherImagesDisplay"></div>

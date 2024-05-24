@@ -36,6 +36,12 @@ function createMultipleImageEvents(obj, uploadDivId) {
 			const files = obj.files;
 
 			if (files && uploadDiv) {
+				// hide editing carousel if exists
+				const editCarousel = document.getElementById("imageCarouselEdit");
+				if (editCarousel){
+					editCarousel.style.display = "none";
+				}
+				
 				uploadDiv.innerHTML = "";
 				for (let i = 0; i < files.length; i++) {
 					const file = files.item(i);

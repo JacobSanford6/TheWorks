@@ -83,8 +83,6 @@ public class ClothingController extends BaseController {
 			} catch (Exception e) {
 				log.error("Front image error", e);
 			}
-		} else {
-			System.out.println("front image doesn't exist");
 		}
 		if (backImageUpload != null) {
 			selectedProduct.setBackImage(backImageUpload.getContent());

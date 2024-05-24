@@ -72,9 +72,9 @@
 							<p:graphicImage id="frontDisplay"
 								styleClass="upload-display-img" height="200"
 								style="display: none!important" width="200" />
-							<p:commandButton type="button" value="Remove"
-								id="frontRemoveUpload"
-								style="display: none; margin-left:auto; margin-right:auto"
+							<p:commandButton type="submit" value="Remove"
+								id="frontRemoveUpload" action="#{clothingController.removeFrontImage}"
+								style="display: block; margin-left:auto; margin-right:auto"
 								styleClass="text-center" />
 								
 						</h:panelGroup>
@@ -91,9 +91,9 @@
 							<p:graphicImage id="backDisplay"
 								styleClass="upload-display-img" height="200" width="200"
 								style="display: none!important" />
-							<p:commandButton type="button" value="Remove"
-								id="backRemoveUpload"
-								style="display: none; margin-left:auto; margin-right:auto"
+							<p:commandButton type="submit" value="Remove"
+								id="backRemoveUpload" action="#{clothingController.removeBackImage}"
+								style="display: block; margin-left:auto; margin-right:auto"
 								styleClass="text-center" />
 
 						</h:panelGroup>
@@ -167,7 +167,7 @@
 							<p:panel header="#{product.name}"
 								styleClass="admin-product-panel">
 								<p:outputLabel value="#{product.description}"></p:outputLabel>
-								<p:graphicImage value="#{product.frontImage}" stream="false"
+								<p:graphicImage rendered="#{product.frontImage != null}" value="#{product.frontImage}" stream="false"
 									height="150" width="150" styleClass="upload-display-img" />
 							</p:panel>
 						</p:commandLink>

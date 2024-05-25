@@ -1,9 +1,11 @@
 var frontUpload = document.getElementById("frontImageUpload");
-createEvents(frontUpload, "frontDisplay");
 var backUpload = document.getElementById("backImageUpload");
-createEvents(backUpload, "backDisplay");
 var othersUpload = document.getElementById("otherImageUpload");
-createMultipleImageEvents(othersUpload, "otherImagesDisplay", "otherRemoveUpload");
+var othersEditDispaly = document.getElementById("otherImageDisplayParent");
+
+createEvents(frontUpload, "frontDisplay");
+createEvents(backUpload, "backDisplay");
+createMultipleImageEvents(othersUpload, "otherImagesDisplay");
 
 function createEvents(obj, displayId) {
 	if (obj) {
@@ -66,10 +68,12 @@ function createMultipleImageEvents(obj, uploadDivId) {
 					imgNode.setAttribute("width", "200");
 
 					imgNode.setAttribute("src", newUrl);
-
+					
 					divNode.appendChild(imgNode);
 					uploadDiv.appendChild(divNode);
-
+					if (othersEditDispaly){
+						othersEditDispaly.style.display = "none";
+					}
 
 				}
 
@@ -77,6 +81,10 @@ function createMultipleImageEvents(obj, uploadDivId) {
 					interval: 2500,
 				});
 				carousel.cycle();
+				const carousel2 = new bootstrap.Carousel('#imageCarouselEdit', {
+					interval: 2500,
+				});
+				carousel2.cycle();
 			}
 		}
 

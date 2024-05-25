@@ -66,17 +66,19 @@
 								styleClass="ui-button-text ui-c form-control" mode="simple"
 								multiple="false" accept=".png,.jpg,.jpeg" id="frontImageUpload"
 								label="Choose Image" virusScan="true" />
-							<p:graphicImage id="frontDisplayEdit" rendered="#{clothingController.selectedProduct.frontImage != null}"
-								styleClass="upload-display-img d-block" height="200"
-								width="200" value="#{clothingController.selectedProduct.frontImage}" stream="false" />
-							<p:graphicImage id="frontDisplay"
-								styleClass="upload-display-img" height="200"
-								style="display: none!important" width="200" />
+							<p:graphicImage id="frontDisplayEdit"
+								rendered="#{clothingController.selectedProduct.frontImage != null}"
+								styleClass="upload-display-img d-block" height="200" width="200"
+								value="#{clothingController.selectedProduct.frontImage}"
+								stream="false" />
+							<p:graphicImage id="frontDisplay" styleClass="upload-display-img"
+								height="200" style="display: none!important" width="200" />
 							<p:commandButton type="submit" value="Remove"
-								id="frontRemoveUpload" action="#{clothingController.removeFrontImage}"
+								id="frontRemoveUpload"
+								action="#{clothingController.removeFrontImage}"
 								style="display: block; margin-left:auto; margin-right:auto"
 								styleClass="text-center" />
-								
+
 						</h:panelGroup>
 
 						<h:panelGroup styleClass="col form-group">
@@ -85,14 +87,16 @@
 								styleClass="ui-button-text ui-c form-control" mode="simple"
 								multiple="false" accept=".png,.jpg,.jpeg" id="backImageUpload"
 								label="Choose Image" virusScan="true" />
-							<p:graphicImage id="backDisplayEdit" rendered="#{clothingController.selectedProduct.backImage != null}"
-								styleClass="upload-display-img d-block" height="200"
-								width="200" value="#{clothingController.selectedProduct.backImage}" stream="false" />
-							<p:graphicImage id="backDisplay"
-								styleClass="upload-display-img" height="200" width="200"
-								style="display: none!important" />
+							<p:graphicImage id="backDisplayEdit"
+								rendered="#{clothingController.selectedProduct.backImage != null}"
+								styleClass="upload-display-img d-block" height="200" width="200"
+								value="#{clothingController.selectedProduct.backImage}"
+								stream="false" />
+							<p:graphicImage id="backDisplay" styleClass="upload-display-img"
+								height="200" width="200" style="display: none!important" />
 							<p:commandButton type="submit" value="Remove"
-								id="backRemoveUpload" action="#{clothingController.removeBackImage}"
+								id="backRemoveUpload"
+								action="#{clothingController.removeBackImage}"
 								style="display: block; margin-left:auto; margin-right:auto"
 								styleClass="text-center" />
 
@@ -108,39 +112,53 @@
 								accept=".png,.jpg,.jpeg" id="otherImageUpload"
 								style="margin-left: auto; margin-right: auto"
 								label="Choose Image" virusScan="true" multiple="true" />
-							<p:commandButton type="button" value="Remove"
-								id="otherRemoveUpload"
-								style="display: none; margin-left:auto; margin-right:auto"
+							<p:commandButton type="submit" value="Remove"
+								id="otherRemoveUpload" immediate="true" action="#{clothingController.removeOtherImages}"
+								style="margin-left:auto; margin-right:auto"
 								styleClass="text-center" />
 						</h:panelGroup>
 					</h:panelGroup>
 
-					<h:panelGroup styleClass="row justify-content-center">
-						<h:panelGroup class="carousel slide w-50" data-ride="carousel"
-							id="imageCarouselEdit" data-bs-ride="carousel">
+					<h:panelGroup id="otherImageDisplayParent" styleClass="row justify-content-center w-50" rendered="#{clothingController.selectedProduct.otherImages.size() > 0}">
+						<div class="carousel slide col w-50"
+							data-ride="carousel" id="imageCarouselEdit"
+							data-bs-ride="carousel">
 							<div class="carousel-inner">
 							
-								
-							
+								<ui:repeat var="image" varStatus="status"
+									value="#{clothingController.selectedProduct.otherImages}">
+									<h:panelGroup layout="block" rendered="#{status.index == 0}"
+										styleClass="carousel-item active">
+										<p:graphicImage value="#{image.image}" stream="false"
+											height="200" width="200" styleClass="upload-display-img" />
+									</h:panelGroup>
+
+									<h:panelGroup layout="block" rendered="#{status.index != 0}"
+										styleClass="carousel-item">
+										<p:graphicImage value="#{image.image}" stream="false"
+											height="200" width="200" styleClass="upload-display-img" />
+									</h:panelGroup>
+								</ui:repeat>
+ 
 							</div>
 
 							<button class="carousel-control-prev" type="button"
-								onclick="$('#imageCarousel').carousel('prev')"
+								onclick="$('#imageCarouselEdit').carousel('prev')"
 								data-bs-target="#carouselExampleControlsNoTouching"
 								data-bs-slide="prev">
 								<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Previous</span>
 							</button>
 							<button class="carousel-control-next" type="button"
-								onclick="$('#imageCarousel').carousel('next')"
+								onclick="$('#imageCarouselEdit').carousel('next')"
 								data-bs-target="#carouselExampleControlsNoTouching"
 								data-bs-slide="next">
 								<span class="carousel-control-next-icon" aria-hidden="true"></span>
 								<span class="visually-hidden">Next</span>
 							</button>
-						</h:panelGroup>
-					
-						<div class="carousel slide w-50" data-ride="carousel"
+						</div>
+
+						<div class="carousel slide col d-none" data-ride="carousel"
 							id="imageCarousel" data-bs-ride="carousel">
 							<div class="carousel-inner" id="otherImagesDisplay"></div>
 
@@ -171,7 +189,8 @@
 					<p:commandButton
 						update="nameMsg name desc descMsg cost costMsg price priceMsg"
 						styleClass="d-block text-center auto-margins btn-danger"
-						action="#{clothingController.goToList}" value="Cancel" immediate="true" />
+						action="#{clothingController.goToList}" value="Cancel"
+						immediate="true" />
 				</h:form>
 				<h:outputScript library="js" name="imageUploading.js" />
 			</h:panelGroup>
@@ -191,8 +210,9 @@
 							<p:panel header="#{product.name}"
 								styleClass="admin-product-panel">
 								<p:outputLabel value="#{product.description}"></p:outputLabel>
-								<p:graphicImage rendered="#{product.frontImage != null}" value="#{product.frontImage}" stream="false"
-									height="150" width="150" styleClass="upload-display-img" />
+								<p:graphicImage rendered="#{product.frontImage != null}"
+									value="#{product.frontImage}" stream="false" height="150"
+									width="150" styleClass="upload-display-img" />
 							</p:panel>
 						</p:commandLink>
 					</ui:repeat>

@@ -1,23 +1,26 @@
 package com.theworks.controllers;
 
-import com.theworks.entities.OtherImage;
-import com.theworks.entities.Product;
-import com.theworks.repos.OtherImageRepo;
-import com.theworks.repos.ProductRepo;
-import jakarta.annotation.PostConstruct;
-import jakarta.faces.view.ViewScoped;
-import jakarta.inject.Named;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
 import org.primefaces.model.file.UploadedFiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import com.theworks.entities.OtherImage;
+import com.theworks.entities.Product;
+import com.theworks.repos.OtherImageRepo;
+import com.theworks.repos.ProductRepo;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
@@ -25,35 +28,34 @@ import org.springframework.dao.DataIntegrityViolationException;
 @Named
 @ViewScoped
 public class ClothingController extends BaseController {
-	
-	private static final long	serialVersionUID	= 1L;
-	private ProductRepo			productRepo;
-	private OtherImageRepo		otherImageRepo;
-	private String				clothingName;
-	private String				clothingDescription;
-	private String				mode				= "list";
-	private Product				selectedProduct;
-	private UploadedFile		frontImageUpload;
-	private UploadedFile		backImageUpload;
-	private UploadedFiles		otherImageUpload;
-	private ArrayList<Product>	productList;
-	private byte[]				testByteArr;
-	
+
+	private static final long serialVersionUID = 1L;
+	private ProductRepo productRepo;
+	private OtherImageRepo otherImageRepo;
+	private String clothingName;
+	private String clothingDescription;
+	private String mode = "list";
+	private Product selectedProduct;
+	private UploadedFile frontImageUpload;
+	private UploadedFile backImageUpload;
+	private UploadedFiles otherImageUpload;
+	private ArrayList<Product> productList;
+	private byte[] testByteArr;
+
 	@Autowired
-	public ClothingController(	ProductRepo productRepo,
-								OtherImageRepo otherImageRepo) {
+	public ClothingController(ProductRepo productRepo, OtherImageRepo otherImageRepo) {
 		this.productRepo = productRepo;
 		this.otherImageRepo = otherImageRepo;
 		this.selectedProduct = new Product();
 		this.productList = new ArrayList<>();
 	}
-	
+
 	@PostConstruct
 	public void init() {
 		updateProductList();
 		System.out.println("new");
 	}
-	
+
 	private void updateProductList() {
 		productList = new ArrayList<>();
 		for (Product product : productRepo.findAll()) {
@@ -61,17 +63,21 @@ public class ClothingController extends BaseController {
 			productList.add(product);
 		}
 	}
-	
+
 	public void tryCreateProduct() {
-		if (otherImageUpload != null) {
+		if (otherImageUpload != null && otherImageUpload.getFiles() != null) {
 			for (UploadedFile uploadedFile : otherImageUpload.getFiles()) {
 				OtherImage otherImage = new OtherImage();
 				otherImage.setImage(uploadedFile.getContent());
-				otherImageRepo.save(otherImage);
-				List<OtherImage> otherImages = selectedProduct.getOtherImages();
-				if (otherImages == null) {
+				otherImage.setProduct(selectedProduct);
+				List<OtherImage> otherImages;
+
+				if (selectedProduct.getOtherImages() != null) {
+					otherImages = selectedProduct.getOtherImages();
+				} else {
 					otherImages = new ArrayList<>();
 				}
+
 				otherImages.add(otherImage);
 				selectedProduct.setOtherImages(otherImages);
 			}
@@ -87,9 +93,17 @@ public class ClothingController extends BaseController {
 		if (backImageUpload != null) {
 			selectedProduct.setBackImage(backImageUpload.getContent());
 		}
+
 		try {
 			Product savedProduct = productRepo.save(selectedProduct);
 			if (productRepo.existsById(savedProduct.getId())) {
+				if (selectedProduct.getOtherImages() != null) {
+					for (OtherImage otherImage : selectedProduct.getOtherImages()) {
+						otherImage.setProduct(savedProduct);
+						otherImageRepo.save(otherImage);
+					}
+				}
+
 				selectedProduct = null;
 				updateProductList();
 				mode = "list";
@@ -100,7 +114,7 @@ public class ClothingController extends BaseController {
 			}
 		}
 	}
-	
+
 	public void removeFrontImage() {
 		try {
 			if (frontImageUpload != null) {
@@ -112,10 +126,9 @@ public class ClothingController extends BaseController {
 		}
 		selectedProduct.setFrontImage(null);
 	}
-	
+
 	public void removeBackImage() {
 		try {
-			System.out.println("*** " + backImageUpload);
 			if (frontImageUpload != null) {
 				backImageUpload.delete();
 			}
@@ -125,27 +138,33 @@ public class ClothingController extends BaseController {
 		}
 		selectedProduct.setBackImage(null);
 	}
-	
+
+	public void removeOtherImages() {
+		otherImageUpload = null;
+		selectedProduct.setOtherImages(new ArrayList<>());
+	}
+
 	public void goToCreate() {
 		this.mode = "create";
 		System.out.println("creating");
 		selectedProduct = new Product();
 	}
-	
+
 	public void goToEdit(int id) {
 		Product searchProduct = productRepo.findById(id).get();
+		System.out.println(searchProduct.getOtherImages().size());
 		if (searchProduct != null) {
 			selectedProduct = searchProduct;
 			mode = "edit";
 		}
 	}
-	
+
 	public void goToList() {
 		updateProductList();
 		selectedProduct = null;
 		mode = "list";
 	}
-	
+
 	public void frontImageListener(FileUploadEvent event) {
 		log.info("*** file upload front");
 		UploadedFile file = event.getFile();
@@ -157,7 +176,7 @@ public class ClothingController extends BaseController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void backImageListener(FileUploadEvent event) {
 		UploadedFile file = event.getFile();
 		try {
@@ -168,11 +187,11 @@ public class ClothingController extends BaseController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void formSubmit() {
 		System.out.println();
 	}
-	
+
 	public void testListener(FileUploadEvent event) {
 		System.out.println(event.getFile().getFileName());
 	}

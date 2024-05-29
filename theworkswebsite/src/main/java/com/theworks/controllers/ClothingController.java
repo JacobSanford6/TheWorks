@@ -65,6 +65,15 @@ public class ClothingController extends BaseController {
 	}
 
 	public void tryCreateProduct() {
+		if (selectedProduct.getOtherImages() != null && selectedProduct.getOtherImages().isEmpty()) {
+			Product oldProduct = productRepo.findById(selectedProduct.getId()).get();
+			log.info("Old Product Length... " + Integer.toString(oldProduct.getOtherImages().size()));
+			for (OtherImage otherImage : oldProduct.getOtherImages()) {
+				otherImageRepo.delete(otherImage);
+			}
+			selectedProduct.setOtherImages(new ArrayList<>());
+		}
+
 		if (otherImageUpload != null && otherImageUpload.getFiles() != null) {
 			for (UploadedFile uploadedFile : otherImageUpload.getFiles()) {
 				OtherImage otherImage = new OtherImage();
@@ -112,6 +121,8 @@ public class ClothingController extends BaseController {
 			if (e.getMessage().contains("Duplicate entry")) {
 				addError("This product alread exists!");
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -141,7 +152,9 @@ public class ClothingController extends BaseController {
 
 	public void removeOtherImages() {
 		otherImageUpload = null;
-		selectedProduct.setOtherImages(new ArrayList<>());
+		List<OtherImage> otherImages = selectedProduct.getOtherImages();
+		otherImages.clear();
+		selectedProduct.setOtherImages(otherImages);
 	}
 
 	public void goToCreate() {

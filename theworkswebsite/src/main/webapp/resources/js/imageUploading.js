@@ -32,6 +32,7 @@ function createEvents(obj, displayId) {
 function updateArrows() {
 	const uploadDiv = document.getElementById("otherImageDisplayParent").getElementsByClassName("carousel-inner")[0]
 	if (uploadDiv) {
+		// only show prev and next arrows if there is at least 2 images being displayed
 		if (uploadDiv.childElementCount < 2) {
 			document.getElementsByClassName("carousel-control-prev")[0].style.display = "none";
 			document.getElementsByClassName("carousel-control-next")[0].style.display = "none";
@@ -56,6 +57,7 @@ function createMultipleImageEvents(obj, uploadDivId) {
 					oldImage.remove()
 				});
 
+				// add new images to display
 				for (let i = 0; i < files.length; i++) {
 					const file = files.item(i);
 					const newUrl = URL.createObjectURL(file);

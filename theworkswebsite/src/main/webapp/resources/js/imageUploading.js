@@ -38,14 +38,11 @@ function createMultipleImageEvents(obj, uploadDivId) {
 			const files = obj.files;
 
 			if (files && uploadDiv) {
-				// hide editing carousel if exists
-				//const editCarousel = document.getElementById("imageCarouselEdit");
-				//if (editCarousel){
-				//	editCarousel.style.display = "none";
-				//}
-
-				//uploadDiv.innerHTML = "";
-
+				// remove old newImages
+				const oldImages = document.getElementsByClassName("newImage")
+				Array.prototype.forEach.call(oldImages, function(oldImage) {
+					oldImage.remove()
+				});
 
 				for (let i = 0; i < files.length; i++) {
 					const file = files.item(i);
@@ -58,13 +55,13 @@ function createMultipleImageEvents(obj, uploadDivId) {
 
 					const divNode = document.createElement("div")
 					if (uploadDiv.childElementCount === 0) {
-						divNode.setAttribute("class", "carousel-item active")
+						divNode.setAttribute("class", "carousel-item active newImage")
 					} else {
-						divNode.setAttribute("class", "carousel-item")
+						divNode.setAttribute("class", "carousel-item newImage")
 					}
 
 					const imgNode = document.createElement("img");
-					imgNode.setAttribute("class", "uploadDisplayImage d-block w-100");
+					imgNode.setAttribute("class", "uploadDisplayImage d-block w-100 newImage");
 					imgNode.setAttribute("height", "200");
 					imgNode.setAttribute("width", "200");
 
@@ -72,22 +69,7 @@ function createMultipleImageEvents(obj, uploadDivId) {
 
 					divNode.appendChild(imgNode);
 					uploadDiv.appendChild(divNode);
-					//if (othersEditDispaly) {
-					//	othersEditDispaly.style.display = "none";
-					//}
-
 				}
-
-				/*
-				const carousel = new bootstrap.Carousel('#imageCarousel', {
-					interval: 2500,
-				});
-				carousel.cycle();
-				const carousel2 = new bootstrap.Carousel('#imageCarouselEdit', {
-					interval: 2500,
-				});
-				carousel2.cycle();
-				*/
 			}
 		}
 

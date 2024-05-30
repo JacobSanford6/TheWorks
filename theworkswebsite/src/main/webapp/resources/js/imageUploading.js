@@ -5,7 +5,7 @@ var othersEditDispaly = document.getElementById("otherImageDisplayParent");
 
 createEvents(frontUpload, "frontDisplay");
 createEvents(backUpload, "backDisplay");
-createMultipleImageEvents(othersUpload, "otherImagesDisplay");
+createMultipleImageEvents(othersUpload, "imageCarouselEdit");
 
 function createEvents(obj, displayId) {
 	if (obj) {
@@ -32,31 +32,32 @@ function createEvents(obj, displayId) {
 function createMultipleImageEvents(obj, uploadDivId) {
 
 	if (obj) {
-		const uploadDiv = document.getElementById(uploadDivId);
+		const uploadDiv = document.getElementById(uploadDivId).getElementsByClassName("carousel-inner")[0];
 
 		obj.onchange = evt => {
 			const files = obj.files;
 
 			if (files && uploadDiv) {
 				// hide editing carousel if exists
-				const editCarousel = document.getElementById("imageCarouselEdit");
-				if (editCarousel){
-					editCarousel.style.display = "none";
-				}
-				
-				uploadDiv.innerHTML = "";
+				//const editCarousel = document.getElementById("imageCarouselEdit");
+				//if (editCarousel){
+				//	editCarousel.style.display = "none";
+				//}
+
+				//uploadDiv.innerHTML = "";
+
+
 				for (let i = 0; i < files.length; i++) {
 					const file = files.item(i);
 					const newUrl = URL.createObjectURL(file);
 					const fileListArr = [...obj.files];
-
 
 					const outputImageHtml = "<p:img " +
 						"className='uploadDisplayImage d-block' height='200' width='200' " +
 						"src=" + "'" + newUrl + "'";
 
 					const divNode = document.createElement("div")
-					if (i == 0) {
+					if (uploadDiv.childElementCount === 0) {
 						divNode.setAttribute("class", "carousel-item active")
 					} else {
 						divNode.setAttribute("class", "carousel-item")
@@ -68,15 +69,16 @@ function createMultipleImageEvents(obj, uploadDivId) {
 					imgNode.setAttribute("width", "200");
 
 					imgNode.setAttribute("src", newUrl);
-					
+
 					divNode.appendChild(imgNode);
 					uploadDiv.appendChild(divNode);
-					if (othersEditDispaly){
-						othersEditDispaly.style.display = "none";
-					}
+					//if (othersEditDispaly) {
+					//	othersEditDispaly.style.display = "none";
+					//}
 
 				}
 
+				/*
 				const carousel = new bootstrap.Carousel('#imageCarousel', {
 					interval: 2500,
 				});
@@ -85,6 +87,7 @@ function createMultipleImageEvents(obj, uploadDivId) {
 					interval: 2500,
 				});
 				carousel2.cycle();
+				*/
 			}
 		}
 

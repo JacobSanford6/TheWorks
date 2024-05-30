@@ -29,8 +29,20 @@ function createEvents(obj, displayId) {
 	}
 }
 
-function createMultipleImageEvents(obj, uploadDivId) {
+function updateArrows() {
+	const uploadDiv = document.getElementById("otherImageDisplayParent").getElementsByClassName("carousel-inner")[0]
+	if (uploadDiv) {
+		if (uploadDiv.childElementCount < 2) {
+			document.getElementsByClassName("carousel-control-prev")[0].style.display = "none";
+			document.getElementsByClassName("carousel-control-next")[0].style.display = "none";
+		} else {
+			document.getElementsByClassName("carousel-control-prev")[0].style.display = "block";
+			document.getElementsByClassName("carousel-control-next")[0].style.display = "block";
+		}
+	}
+}
 
+function createMultipleImageEvents(obj, uploadDivId) {
 	if (obj) {
 		const uploadDiv = document.getElementById(uploadDivId).getElementsByClassName("carousel-inner")[0];
 
@@ -70,10 +82,13 @@ function createMultipleImageEvents(obj, uploadDivId) {
 					divNode.appendChild(imgNode);
 					uploadDiv.appendChild(divNode);
 				}
+
 			}
+			updateArrows()
 		}
 
 	}
+	updateArrows()
 }
 
 

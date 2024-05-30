@@ -98,6 +98,16 @@ input[type="file"] {
         display: none;
 }
 
+.bottom-img{
+	display: none;
+}
+.hide-on-hover:hover .top-img {
+	display: none;
+}
+.hide-on-hover:hover .bottom-img {
+	display: block!important;
+}
+
 ui-fileupload-upload ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left{
 	
 }

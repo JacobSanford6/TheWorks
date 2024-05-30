@@ -105,7 +105,7 @@ input[type="file"] {
 	display: none;
 }
 .hide-on-hover:hover .bottom-img {
-	display: block!important;
+	display: inline!important;
 }
 
 ui-fileupload-upload ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left{

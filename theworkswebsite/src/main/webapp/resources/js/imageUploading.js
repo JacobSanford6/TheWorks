@@ -61,7 +61,7 @@ function createMultipleImageEvents(obj, uploadDivId) {
 					}
 
 					const imgNode = document.createElement("img");
-					imgNode.setAttribute("class", "uploadDisplayImage d-block w-100 newImage");
+					imgNode.setAttribute("class", "upload-display-img newImage");
 					imgNode.setAttribute("height", "200");
 					imgNode.setAttribute("width", "200");
 

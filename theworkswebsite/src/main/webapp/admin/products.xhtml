@@ -187,26 +187,30 @@
 
 			<h:panelGroup rendered="#{clothingController.mode == 'list'}">
 				<h:panelGroup>
-				<h:panelGroup layout="block" id="productCard#{varStatus.index}" />
+					<h:panelGroup layout="block" id="productCard#{varStatus.index}" />
 					<c:forEach var="product" items="#{clothingController.productList}"
 						varStatus="varStatus">
-						
+
 						<p:commandLink action="#{clothingController.goToEdit(product.id)}">
-							<p:panel id="productCard#{varStatus.index}" header="#{product.name}" 
+							<p:panel id="productCard#{varStatus.index}"
+								header="#{product.name}"
 								styleClass="admin-product-panel hide-on-hover">
 								<p:outputLabel value="#{product.description}"></p:outputLabel>
-								<p:graphicImage rendered="#{product.frontImage != null}"
-									value="#{product.frontImage}" stream="false" height="150"
-									width="150" styleClass="upload-display-img top-img"
-									id="frontImg#{varStatus.index}" />
-								<p:graphicImage rendered="#{product.backImage != null}"
-									value="#{product.backImage}" stream="false" height="150"
-									width="150" styleClass="upload-display-img bottom-img" style="display: none;"
-									id="backImg#{varStatus.index}" />
+								<div style="height: 150px; overflow: none;">
+									<p:graphicImage rendered="#{product.frontImage != null}"
+										value="#{product.frontImage}" stream="false" height="150"
+										width="150" styleClass="upload-display-img top-img"
+										id="frontImg#{varStatus.index}" />
+									<p:graphicImage rendered="#{product.backImage != null}"
+										value="#{product.backImage}" stream="false" height="150"
+										width="150" styleClass="upload-display-img bottom-img"
+										style="display: none;" id="backImg#{varStatus.index}" />
+								</div>
+
 							</p:panel>
 						</p:commandLink>
-						
-						
+
+
 					</c:forEach>
 
 				</h:panelGroup>

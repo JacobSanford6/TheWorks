@@ -162,6 +162,7 @@ public class ClothingController extends BaseController {
 		this.mode = "create";
 		System.out.println("creating");
 		selectedProduct = new Product();
+		selectedProduct.setSize("S");
 	}
 	
 	public void goToEdit(int id) {

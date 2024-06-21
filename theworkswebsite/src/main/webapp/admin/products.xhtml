@@ -67,7 +67,16 @@
 								<f:selectItems value="#{clothingController.clothingColors}" />
 							</p:selectCheckboxMenu>
 						</h:panelGroup>
+						
+						<h:panelGroup styleClass="form-group col">
+							<h:outputLabel value="Size"/>
+							<p:selectOneMenu value="#{selectedProduct.size}">
+								<f:selectItems value="#{clothingController.clothingSizes}"/>
+							</p:selectOneMenu>
+						</h:panelGroup>
 					</h:panelGroup>
+					
+					
 
 					<h:panelGroup styleClass="row">
 						<h:panelGroup styleClass="form-group col">

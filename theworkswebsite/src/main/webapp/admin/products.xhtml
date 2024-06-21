@@ -48,6 +48,29 @@
 
 					<h:panelGroup styleClass="row">
 						<h:panelGroup styleClass="form-group col">
+							<h:outputLabel value="Product Type" />
+							<p:selectOneMenu>
+								<f:selectItems value="#{clothingController.clothingTypes}" />
+							</p:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup styleClass="form-group col">
+							<h:outputLabel value="Product Material" />
+							<p:selectOneMenu>
+								<f:selectItems value="#{clothingController.clothingMaterials}" />
+							</p:selectOneMenu>
+						</h:panelGroup>
+
+						<h:panelGroup styleClass="form-group col">
+							<h:outputLabel value="Product Color(s)" />
+							<p:selectCheckboxMenu label="Product Color(s)">
+								<f:selectItems value="#{clothingController.clothingColors}" />
+							</p:selectCheckboxMenu>
+						</h:panelGroup>
+					</h:panelGroup>
+
+					<h:panelGroup styleClass="row">
+						<h:panelGroup styleClass="form-group col">
 							<h:outputLabel value="Product Description" />
 							<span class="form-control"> <p:inputTextarea
 									placeholder="Description"

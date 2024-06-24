@@ -16,11 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @ViewScoped
 @Named
-public class StoreController {
+public class ShopController {
 	
 	private Product selectedProduct = new Product();
 	
-	public StoreController(	ServletContext servletContext,
+	public ShopController(	ServletContext servletContext,
 							HttpSession session,
 							ProductRepo productRepo) {
 		Integer productId = null;

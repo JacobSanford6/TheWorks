@@ -25,8 +25,9 @@ public class ApiRouter {
 	@GetMapping("/{id}")
 	public void test(@PathVariable String id, ServletRequest request, ServletResponse response) {
 		session.setAttribute("productId", id);
+		session.setAttribute("restful", true);
 		try {
-			session.getServletContext().getRequestDispatcher("/shop.xhtml").forward(request, response);
+			session.getServletContext().getRequestDispatcher("/shopitem.xhtml").forward(request, response);
 		} catch (ServletException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

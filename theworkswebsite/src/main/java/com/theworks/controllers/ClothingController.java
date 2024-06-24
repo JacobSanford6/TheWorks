@@ -59,7 +59,6 @@ public class ClothingController extends BaseController {
 	@PostConstruct
 	public void init() {
 		updateProductList();
-		System.out.println("new");
 	}
 	
 	private void updateProductList() {
@@ -133,7 +132,6 @@ public class ClothingController extends BaseController {
 				frontImageUpload.delete();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		selectedProduct.setFrontImage(null);
@@ -145,7 +143,6 @@ public class ClothingController extends BaseController {
 				backImageUpload.delete();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		selectedProduct.setBackImage(null);
@@ -159,15 +156,13 @@ public class ClothingController extends BaseController {
 	}
 	
 	public void goToCreate() {
-		this.mode = "create";
-		System.out.println("creating");
 		selectedProduct = new Product();
 		selectedProduct.setSize("S");
+		this.mode = "create";
 	}
 	
 	public void goToEdit(int id) {
 		Product searchProduct = productRepo.findById(id).get();
-		System.out.println(searchProduct.getOtherImages().size());
 		if (searchProduct != null) {
 			selectedProduct = searchProduct;
 			mode = "edit";

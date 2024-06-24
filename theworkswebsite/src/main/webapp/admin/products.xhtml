@@ -55,22 +55,20 @@
 						</h:panelGroup>
 
 						<h:panelGroup styleClass="form-group col">
-							<h:outputLabel value="Product Material" />
-							<p:selectOneMenu>
+							<p:selectCheckboxMenu value="#{clothingController.selectedProduct.materials}" label="Product Material(s)">
 								<f:selectItems value="#{clothingController.clothingMaterials}" />
-							</p:selectOneMenu>
+							</p:selectCheckboxMenu>
 						</h:panelGroup>
 
 						<h:panelGroup styleClass="form-group col">
-							<h:outputLabel value="Product Color(s)" />
-							<p:selectCheckboxMenu label="Product Color(s)">
+							<p:selectCheckboxMenu label="Product Color(s)" value="#{clothingController.selectedProduct.colors}">
 								<f:selectItems value="#{clothingController.clothingColors}" />
 							</p:selectCheckboxMenu>
 						</h:panelGroup>
 						
 						<h:panelGroup styleClass="form-group col">
 							<h:outputLabel value="Size"/>
-							<p:selectOneMenu value="#{selectedProduct.size}">
+							<p:selectOneMenu value="#{clothingController.selectedProduct.size}">
 								<f:selectItems value="#{clothingController.clothingSizes}"/>
 							</p:selectOneMenu>
 						</h:panelGroup>
@@ -87,6 +85,14 @@
 									id="desc" />
 							</span>
 							<p:message for="desc" id="descMsg" />
+						</h:panelGroup>
+					</h:panelGroup>
+
+					
+					<h:panelGroup styleClass="row">
+						<h:panelGroup styleClass="col">
+							
+							<p:selectBooleanCheckbox  itemLabel="List product for sale?" value="#{clothingController.selectedProduct.listed}"/>
 						</h:panelGroup>
 					</h:panelGroup>
 
@@ -189,9 +195,8 @@
 								<span class="visually-hidden">Next</span>
 							</button>
 						</div>
-
-
 					</h:panelGroup>
+					
 					<p:commandButton rendered="#{clothingController.mode == 'create'}"
 						update="nameMsg name desc descMsg cost costMsg price priceMsg"
 						styleClass="d-block text-center auto-margins"
@@ -205,6 +210,10 @@
 						styleClass="d-block text-center auto-margins btn-danger"
 						action="#{clothingController.goToList}" value="Cancel"
 						immediate="true" />
+						
+					
+					
+					
 				</h:form>
 				<h:outputScript library="js" name="imageUploading.js" />
 			</h:panelGroup>

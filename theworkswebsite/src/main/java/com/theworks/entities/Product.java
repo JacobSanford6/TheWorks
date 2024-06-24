@@ -13,7 +13,6 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import jakarta.persistence.UniqueConstraint;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,9 +31,10 @@ public class Product {
 	private BigDecimal			cost;
 	private BigDecimal			price;
 	private String				size;
-	private ArrayList<String>	types;
-	private ArrayList<String>	colors;
-	private ArrayList<String>	materials;
+	private boolean				listed	= false;
+	private List<String>		types;
+	private List<String>		colors;
+	private List<String>		materials;
 	@Lob
 	@Column(columnDefinition = "BLOB")
 	private byte[]				frontImage;

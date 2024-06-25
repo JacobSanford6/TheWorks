@@ -43,6 +43,12 @@ a {
 	-webkit-user-drag: none!important;
 }
 
+.balanced-inner-carousel{
+	width: 70%!important;
+	left: 15%;
+	text-align: center;
+}
+
 .product-heading{
 	font-size: 3rem!important;
 }
@@ -61,6 +67,11 @@ body .ui-inputfield.ui-state-focus{
 
 .ui-messages-error-icon{
 	display: none!important;
+}
+
+.margin-center{
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .admin-product-panel{
@@ -110,6 +121,11 @@ input[type="file"] {
 }
 .hide-on-hover:hover .bottom-img {
 	display: inline!important;
+}
+
+.carousel-control-next,
+.carousel-control-prev /*, .carousel-indicators */ {
+    filter: invert(100%);
 }
 
 ui-fileupload-upload ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left{

@@ -6,6 +6,9 @@
 	template="/layout/layout.xhtml" xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content" styleClass="container">
+		<h:outputScript library="js" name="jquery.js"/>
+		<h:outputScript library="js" name="jquery-plugins.js"/>
+	
 		<h:panelGroup id="panel" styleClass="container d-block text-center">
 			<h:panelGroup styleClass="row">
 				<p:outputLabel styleClass="product-heading"
@@ -13,13 +16,13 @@
 			</h:panelGroup>
 		</h:panelGroup>
 
-		<h:panelGroup styleClass="row">
-			<h:panelGroup styleClass="w-50 displayImages">
+		<h:panelGroup styleClass="row justify-content-md-center">
+			<h:panelGroup styleClass="displayImages">
 
 
-				<div class="carousel slide col w-50" data-ride="carousel"
+				<div class="carousel slide col margin-center w-75" data-ride="carousel"
 					id="imageCarouselView" data-bs-ride="carousel">
-					<div class="carousel-inner">
+					<div class="carousel-inner balanced-inner-carousel">
 
 						<h:panelGroup layout="block" styleClass="carousel-item active">
 							<p:graphicImage

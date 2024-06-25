@@ -5,6 +5,7 @@ import com.theworks.repos.ProductRepo;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 import lombok.Getter;
@@ -22,10 +23,11 @@ public class ShopController {
 	
 	public ShopController(	ServletContext servletContext,
 							HttpSession session,
+							ServletRequest request,
 							ProductRepo productRepo) {
 		Integer productId = null;
 		try {
-			productId = Integer.parseInt((String) session.getAttribute("productId"));
+			productId = Integer.parseInt((String) request.getAttribute("productId"));
 		} catch (NumberFormatException e) {
 		}
 		if (productId != null) {

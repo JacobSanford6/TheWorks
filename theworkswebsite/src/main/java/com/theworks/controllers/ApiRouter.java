@@ -24,14 +24,11 @@ public class ApiRouter {
 	
 	@GetMapping("/{id}")
 	public void test(@PathVariable String id, ServletRequest request, ServletResponse response) {
-		session.setAttribute("productId", id);
-		session.setAttribute("restful", true);
 		try {
+			request.setAttribute("productId", id);
 			session.getServletContext().getRequestDispatcher("/shopitem.xhtml").forward(request, response);
 		} catch (ServletException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("***SOMETHING HAPPENED");
 	}
 }

@@ -6,6 +6,8 @@
 	template="/layout/layout.xhtml" xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content" styleClass="container">
+		<h:outputText value="ID: #{shopController.selectedProduct.id}"/>
+	
 		<h:outputScript library="js" name="jquery.js"/>
 		<h:outputScript library="js" name="jquery-plugins.js"/>
 	
@@ -24,22 +26,22 @@
 					id="imageCarouselView" data-bs-ride="carousel">
 					<div class="carousel-inner balanced-inner-carousel">
 
-						<h:panelGroup layout="block" styleClass="carousel-item active">
+						<h:panelGroup layout="block" styleClass="carousel-item active" rendered="#{shopController.selectedProduct.frontImage != null}">
 							<p:graphicImage
 								value="#{shopController.selectedProduct.frontImage}"
 								stream="false" height="200" width="200"
 								styleClass="upload-display-img" />
 						</h:panelGroup>
 
-						<h:panelGroup layout="block" styleClass="carousel-item">
+						<h:panelGroup layout="block" styleClass="carousel-item" rendered="#{shopController.selectedProduct.backImage != null}">
 							<p:graphicImage value="#{shopController.selectedProduct.backImage}"
 								stream="false" height="200" width="200"
 								styleClass="upload-display-img" />
 						</h:panelGroup>
 
 
-						<ui:repeat var="image"
-							value="#{shopController.selectedProduct.otherImages}">
+						<ui:repeat var="image" rendered="#{shopController.selectedProduct.otherImages != null}"
+							value="#{shopController.selectedProduct.otherImages}" >
 							<h:panelGroup layout="block" styleClass="carousel-item">
 								<p:graphicImage value="#{image.image}" stream="false"
 									height="200" width="200" styleClass="upload-display-img" />

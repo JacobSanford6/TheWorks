@@ -157,7 +157,6 @@ public class ClothingController extends BaseController {
 	
 	public void goToCreate() {
 		selectedProduct = new Product();
-		selectedProduct.setSize("S");
 		this.mode = "create";
 	}
 	
@@ -176,7 +175,6 @@ public class ClothingController extends BaseController {
 	}
 	
 	public void frontImageListener(FileUploadEvent event) {
-		log.info("*** file upload front");
 		UploadedFile file = event.getFile();
 		try {
 			if (file != null && file.getSize() > 0) {

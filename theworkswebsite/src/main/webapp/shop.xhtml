@@ -6,8 +6,12 @@
 	template="/layout/layout.xhtml" xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content" styleClass="container">
-		<h:form>
-			<h:outputText value="#{shopController.selectedProduct.name}"/>
-		</h:form>
+		<h:panelGroup rendered="#{clothingController.mode == 'list'}">
+			<h:panelGroup>
+				<ui:repeat var="product" value="#{clothingController.productList}"
+					varStatus="varStatus">
+				</ui:repeat>
+			</h:panelGroup>
+		</h:panelGroup>
 	</ui:define>
 </ui:composition>

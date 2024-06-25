@@ -4,9 +4,8 @@ import com.theworks.entities.Product;
 import com.theworks.repos.ProductRepo;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
-import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletRequest;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,11 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 @Named
 public class ShopController {
 	
-	private Product selectedProduct = new Product();
+	private Product			selectedProduct	= null;
+	private List<Product>	productList		= null;
 	
-	public ShopController(	ServletContext servletContext,
-							HttpSession session,
-							ServletRequest request,
+	public ShopController(	ServletRequest request,
 							ProductRepo productRepo) {
 		Integer productId = null;
 		try {
@@ -34,7 +32,11 @@ public class ShopController {
 			Optional<Product> foundProductOptional = productRepo.findById(productId);
 			if (foundProductOptional.isPresent()) {
 				this.selectedProduct = foundProductOptional.get();
+			} else {
+				productList = productRepo.findAllByListed(true);
 			}
+		} else {
+			productList = productRepo.findAllByListed(true);
 		}
 	}
 }

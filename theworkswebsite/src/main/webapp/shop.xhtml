@@ -6,10 +6,31 @@
 	template="/layout/layout.xhtml" xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="content" styleClass="container">
-		<h:panelGroup rendered="#{clothingController.mode == 'list'}">
+		<!-- SHOW ALL LISTINGS WHEN THERE IS NO SELECTED PRODUCT -->
+		<h:panelGroup rendered="#{shopController.selectedProduct == null}">
 			<h:panelGroup>
-				<ui:repeat var="product" value="#{clothingController.productList}"
+				<ui:repeat var="product" value="#{shopController.productList}"
 					varStatus="varStatus">
+					
+					<p:commandLink onclick="window.location.href = 'shop/#{product.id}'">
+							<p:panel id="productCard#{varStatus.index}"
+								header="#{product.name}"
+								styleClass="admin-product-panel hide-on-hover">
+								<p:outputLabel value="#{product.description}"></p:outputLabel>
+								<div style="height: 150px; overflow: none;">
+									<p:graphicImage rendered="#{product.frontImage != null}"
+										value="#{product.frontImage}" stream="false" height="150"
+										width="150" styleClass="upload-display-img top-img"
+										id="frontImg#{varStatus.index}" />
+									<p:graphicImage rendered="#{product.backImage != null}"
+										value="#{product.backImage}" stream="false" height="150"
+										width="150" styleClass="upload-display-img bottom-img"
+										style="display: none;" id="backImg#{varStatus.index}" />
+								</div>
+
+							</p:panel>
+						</p:commandLink>	
+					
 				</ui:repeat>
 			</h:panelGroup>
 		</h:panelGroup>

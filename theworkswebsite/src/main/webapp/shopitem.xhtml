@@ -5,33 +5,25 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="/layout/layout.xhtml" xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="content" styleClass="container">
+	<ui:define name="content" styleClass="">
 		<h:outputScript library="js" name="jquery.js" />
 		<h:outputScript library="js" name="jquery-plugins.js" />
 
-		<h:outputText value="#{shopController.selectedProduct.id}"/>
-		<h:panelGroup id="panel" styleClass="container d-block text-center" rendered="#{shopController.selectedProduct != null and shopController.selectedProduct.id != 0}">
-			<h:outputText value="a"/>
+		<h:outputText value="#{shopController.selectedProduct.id}" />
+		<h:panelGroup id="panel" styleClass="d-block" style="padding: 2rem"
+			rendered="#{shopController.selectedProduct != null and shopController.selectedProduct.id != 0}">
 			<h:panelGroup styleClass="row">
-				<p:outputLabel styleClass="product-heading"
-					value="#{shopController.selectedProduct.name}" />
-			</h:panelGroup>
-
-
-			<h:panelGroup styleClass="row justify-content-md-center">
-				<h:panelGroup styleClass="displayImages">
-
-
-					<div class="carousel slide col margin-center w-75"
-						data-ride="carousel" id="imageCarouselView"
-						data-bs-ride="carousel">
+				<!-- PRODUCT IMAGES -->
+				<h:panelGroup styleClass="displayImages col" style="flex: 5">
+					<div class="carousel slide margin-center" data-ride="carousel"
+						id="imageCarouselView" data-bs-ride="carousel">
 						<div class="carousel-inner balanced-inner-carousel">
 
 							<h:panelGroup layout="block" styleClass="carousel-item active"
 								rendered="#{shopController.selectedProduct.frontImage != null}">
 								<p:graphicImage
 									value="#{shopController.selectedProduct.frontImage}"
-									stream="false" height="200" width="200"
+									stream="false" height="403" width="302"
 									styleClass="upload-display-img" />
 							</h:panelGroup>
 
@@ -39,7 +31,7 @@
 								rendered="#{shopController.selectedProduct.backImage != null}">
 								<p:graphicImage
 									value="#{shopController.selectedProduct.backImage}"
-									stream="false" height="200" width="200"
+									stream="false" height="403" width="302"
 									styleClass="upload-display-img" />
 							</h:panelGroup>
 
@@ -49,7 +41,7 @@
 								value="#{shopController.selectedProduct.otherImages}">
 								<h:panelGroup layout="block" styleClass="carousel-item">
 									<p:graphicImage value="#{image.image}" stream="false"
-										height="200" width="200" styleClass="upload-display-img" />
+										height="403" width="302" styleClass="upload-display-img" />
 								</h:panelGroup>
 							</ui:repeat>
 						</div>
@@ -71,12 +63,38 @@
 					</div>
 
 				</h:panelGroup>
+				<!-- PRODUCT DETAILS -->
+				<h:panelGroup styleClass="col" style="flex: 3">
+					<p:outputLabel styleClass="product-heading"
+						value="#{shopController.selectedProduct.name}" />
+					<br />
+					<p:outputLabel styleClass=""
+						value="#{shopController.selectedProduct.description}" />
+					<br />
+					<p:outputLabel styleClass=""
+						value="$#{shopController.selectedProduct.price}" />
+					
+					<p:separator />
+					<p:commandButton value="ADD TO CART"/>
+				</h:panelGroup>
+
+			</h:panelGroup>
+			
+			
+			<h:panelGroup styleClass="row text-center" rendered="#{shopController.selectedProduct.description != '' and shopController.selectedProduct.description != null}">
+				<p:spacer height="1em" />
+				<p:separator style="width: 50%" styleClass="auto-margins" />
+				<p:spacer height="1em"/>
+				<p:outputLabel value="#{shopController.selectedProduct.description}" />
 			</h:panelGroup>
 		</h:panelGroup>
 
-		<h:panelGroup rendered="#{shopController.selectedProduct == null or shopController.selectedProduct.id == 0}">
+		<h:panelGroup
+			rendered="#{shopController.selectedProduct == null or shopController.selectedProduct.id == 0}">
 			<h1 class="text-danger text-center">Product Not Found</h1>
-			<p:commandLink value="Back" styleClass="btn btn-success auto-margins text-center" onclick="window.location.href='../shop.xhtml'"/>
+			<p:commandLink value="Back"
+				styleClass="btn btn-success auto-margins text-center"
+				onclick="window.location.href='../shop.xhtml'" />
 		</h:panelGroup>
 
 
